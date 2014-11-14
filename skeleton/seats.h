@@ -14,6 +14,8 @@ typedef struct seat_struct
     int customer_id;
     seat_state_t state;
     struct seat_struct* next;
+	// add a lock for each seat
+	pthread_mutex_t lock;
 } seat_t;
 
 

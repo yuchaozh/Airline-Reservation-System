@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <pthread.h>
 #include "seats.h"
 
 seat_t* seat_header = NULL;
@@ -14,9 +14,13 @@ void list_seats(char* buf, int bufsize)
     int index = 0;
     while(curr != NULL && index < bufsize+ strlen("%d %c,"))
     {
+		// lock
+		pthread_mutex_lock(&(curr->lock));
         int length = snprintf(buf+index, bufsize-index, 
                 "%d %c,", curr->id, seat_state_to_char(curr->state));
-        if (length > 0)
+        // unlock
+		pthread_mutex_unlock(&(curr->lock));
+		if (length > 0)
             index = index + length;
         curr = curr->next;
     }
@@ -33,6 +37,8 @@ void view_seat(char* buf, int bufsize,  int seat_id, int customer_id, int custom
     {
         if(curr->id == seat_id)
         {
+			// lock
+			pthread_mutex_lock(&(curr->lock));
             if(curr->state == AVAILABLE || (curr->state == PENDING && curr->customer_id == customer_id))
             {
                 snprintf(buf, bufsize, "Confirm seat: %d %c ?\n\n",
@@ -44,7 +50,8 @@ void view_seat(char* buf, int bufsize,  int seat_id, int customer_id, int custom
             {
                 snprintf(buf, bufsize, "Seat unavailable\n\n");
             }
-
+			// unlock
+			pthread_mutex_unlock(&(curr->lock));
             return;
         }
         curr = curr->next;
@@ -60,6 +67,8 @@ void confirm_seat(char* buf, int bufsize, int seat_id, int customer_id, int cust
     {
         if(curr->id == seat_id)
         {
+			// lock
+			pthread_mutex_lock(&(curr->lock));
             if(curr->state == PENDING && curr->customer_id == customer_id )
             {
                 snprintf(buf, bufsize, "Seat confirmed: %d %c\n\n",
@@ -74,7 +83,8 @@ void confirm_seat(char* buf, int bufsize, int seat_id, int customer_id, int cust
             {
                 snprintf(buf, bufsize, "No pending request\n\n");
             }
-
+			// unlock
+			pthread_mutex_unlock(&(curr->lock));
             return;
         }
         curr = curr->next;

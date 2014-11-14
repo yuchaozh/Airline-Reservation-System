@@ -33,7 +33,7 @@ int main(int argc,char *argv[])
     
     listenfd = 0; 
 
-    int server_port = 8080;
+    int server_port = 8180;
 
     if (argc > 1)
     {
@@ -60,7 +60,7 @@ int main(int argc,char *argv[])
 
     // initialize the threadpool
     // Set the number of threads and size of the queue
-    threadpool = pool_create(0,0);
+    threadpool = pool_create(10,50);
 
 
     // Load the seats;

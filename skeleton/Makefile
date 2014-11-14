@@ -18,7 +18,7 @@
 ###############################################################################
 
 # handin info
-TEAM = `whoami`
+TEAM = "jsy833+yzr736"
 VERSION = `date +%Y%m%d%H%M%S`
 PROJ = http_server
 
