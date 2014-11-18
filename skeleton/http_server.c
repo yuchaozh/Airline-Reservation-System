@@ -33,7 +33,7 @@ int main(int argc,char *argv[])
     
     listenfd = 0; 
 
-    int server_port = 8180;
+    int server_port = 8080;
 
     if (argc > 1)
     {
