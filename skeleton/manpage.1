@@ -1,0 +1,15 @@
+.\" NOTE: We implemented extra requirement: priority Scheduling.
+.TH Airline Reservation System 1 "Airline Reservation System" "Northwestern University EECS 343 Operating System - Fall 2014"
+.SH NAME
+Airline Reservation System
+.SH SYNOPSIS
+.B The Airline Reservation System can handle multiple simultaneous connections through multi-threading to finish requests of user checking, booking and cancelling seats.
+.SH DESCRIPTION
+.B
+Airline Reservation System, implement all requirements.
+.SH DESIGN APPROACH
+.B We use a queue to store all the requests and keep scanning the queue for new requests. While there is request, a thread is used to handle request function. The request is removed from threads pool after finished. Also a standby list is used to serve the requests. When there's no available seats, the booking request will be placed in a stadnby list. And when there's a cancelling request, program will fetch the request in standby list to run.
+A binary semaphore is used to control the standby list.
+.SH AUTHOR
+Yuchao Zhou - yzr736 yuchaozhou2014@u.northwestern.edu
+Jin Sun - jsy833 jinsun2014@u.northwestern.edu
