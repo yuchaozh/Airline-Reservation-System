@@ -1,0 +1,17 @@
+EECS 343 Project 3 - 2014 Fall
+
+Airline Reservation System
+
+Authors: yuchao Zhou (yzr736), )Jin Sun (jsy833)
+
+Implemented: thread pool, seat state management, and resource multual exclusion
+
+Implementation Summery:
+Threads Pool:
+A threads pool contains a banch of threads when created. Once a request is handled by server, it is placed into a queue and assigned to one of the threads. To run a request, the program will lock the pool, bind the request function to a thread to run.
+
+Resource Multual Exclusion:
+When threads do their work, keep scanning the queue. The program will first lock the thread, and scan the queue. If there's no request to handle, unlock it and move to next thread. If there is function, pop the request out of queue, unlock the thread and run the function.
+
+Seat State Management:
+The seats are locked when request seats information. The standby list keeps updating the status of seats. If no seats are avaliable, the booking request will be added to standby list. If a cancelation request is post, the thread will pick request from standby list. A binary semaphore is used to control the standby list.
